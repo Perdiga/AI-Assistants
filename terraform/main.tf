@@ -13,5 +13,5 @@ terraform {
 }
 
 provider "openai" {
-    api_key = var.api-key
+  api_key = var.api-key
 }
