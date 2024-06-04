@@ -10,6 +10,7 @@ on:
 
 env:
   TF_LOG: INFO
+  OPEN_AI_KEY: ${{ secrets.OPEN_AI_KEY }}
 
 jobs:
   terraform-k8s:
@@ -43,7 +44,7 @@ jobs:
     - name: Executes Terraform plan
       id: plan
       if: github.event_name == 'pull_request'
-      run: terraform plan -no-color -input=false -var="${{ secrets.OPEN_AI_KEY }}"
+      run: terraform plan -no-color -input=false -var="api-key=$OPEN_AI_KEY"
       continue-on-error: true
 
     - uses: actions/github-script@v6
@@ -79,5 +80,5 @@ jobs:
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false -var="$OPEN_AI_KEY"
+      run: terraform apply -auto-approve -input=false -var="api-key=$OPEN_AI_KEY"
  
